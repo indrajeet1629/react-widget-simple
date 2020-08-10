@@ -1,7 +1,7 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 module.exports = (configDirs) => {
   return {
     // Entry file
@@ -85,6 +85,23 @@ module.exports = (configDirs) => {
       // }),
       new HtmlWebpackPlugin({
         template: configDirs.APP_DIR + "/index.html",
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+        custom: [
+          {
+            test: /\.js$/,
+            attribute: "data-config",
+            value: "{'name': 'w1', 'config': {'targetElementId': 'root'}}",
+          },
+          {
+            test: /\.js$/,
+            attribute: "id",
+            value: "Simple-Widget-Script",
+          },
+        ],
+        preload: {
+          test: /\.js$/,
+        },
       }),
     ],
   };
